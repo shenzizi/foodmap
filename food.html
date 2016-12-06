@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex">
+    <title>google map</title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="aster.css">
+    <link rel="stylesheet" type="text/css" href="radar.css">
+    <link rel="stylesheet" type="text/css" href="imgbar.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDdpTRtQThkem_nD955vK_U9tEHifWbkOY"></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js'></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+    <script src="mapstyles.js"></script>
+    <script src="mrt_json.js"></script>
+    <script src="aster_data.js"></script>
+    <script src="aster01.js"></script>
+    <script src="radar_data.js"></script>
+    <script src="imgbar_data.js"></script>
+    <script src="radar.js"></script>
+    <script src="imgbar.js"></script>
+    <style id="jsbin-css">
+    .gmap {
+        display: block;
+        width: 70vw;
+        height: 75vh;
+    }
+    
+    .foodmap,
+    .foodmap svg {
+        position: absolute;
+    }
+    
+    .foodmap svg {
+        width: 50px;
+        height: 50px;
+        /*  padding-right: 100px;*/
+        font: 12px sans-serif;
+    }
+    
+    .foodmap circle {
+        fill: yellow;
+        /*        stroke: black;*/
+        stroke-width: 1.5px;
+    }
+    
+    .container-fluid {
+        border: 1px solid purple;
+        margin-top: 40px;
+    }
+    
+    .col-md-3,
+    .col-md-9 {
+        border: 1px solid yellow;
+    }
+    
+    div.tooltip {
+        height: 40px;
+        color: white;
+        background-color: black;
+        padding-top: 10px;
+        padding-left: 4px;
+        font-size: 13px;
+        position: absolute;
+        width: 140px;
+        border-radius: 20px;
+        display: none;
+        z-index: 20;
+        opacity: .8;
+    }
+    
+    svg {
+        border: 1px solid brown;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-9 gmap" id="map-canvas"></div>
+            <div class="col-md-3">intro
+                <!--  <div class="aster"></div> -->
+                <div class="radarchart"></div>
+                <div class="imgbar"></div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-9" id="map-canvas">test</div>
+            <div class="col-md-3">intro</div>
+        </div>
+    </div>
+    <script>
+    var map;
+    var overlay = new google.maps.OverlayView();
+    var sta_in = [],
+        sta_out = [],
+        mrtData;
+    var mapOptions = {
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+            // styles: styles['hide']
+    }
+
+    function initialize() {
+        var mapOptions = {
+            zoom: 14,
+            center: new google.maps.LatLng(25.03326, 121.518168),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        map.setOptions({
+            styles: map_styles_zoom14
+        });
+    }
+
+    initialize();
+
+    // d3.csv("mrt_s.csv", function(data) {
+    //     mrtData = data;
+    //     console.log(mrtData);
+    //     sta_in = mrtin.result.results;
+    //     sta_out = mrtout.result.results;
+    //     console.log(sta_in, sta_out);
+    //     drawMap(data);
+
+    // });
+
+    var data = mrt.results;
+    drawMap(data);
+
+
+    function drawMap() {
+
+        // 設定圖形長寬, 半徑
+        var width = 35,
+            height = 40,
+            radius = Math.min(width, height) / 2;
+
+        // color
+        var color = d3.scale.category10();
+        var pie = d3.layout.pie();
+
+        var arc = d3.svg.arc()
+            .innerRadius(0)
+            .outerRadius(radius);
+
+        // Add the container when the overlay is added to the map.
+        overlay.onAdd = function() {
+            // var layer = d3.select(this.getPanes().overlayLayer).append("div")
+            //     .attr("class", "stations");
+            var layer = d3.select(this.getPanes().overlayMouseTarget)
+                .append("div")
+                .attr("class", "foodmap");
+
+            overlay.draw = function() {
+                var projection = this.getProjection(),
+                    padding = 30;
+
+                var marker = layer.selectAll("svg")
+                    .data(d3.entries(data))
+                    .each(transform)
+                    .enter().append("svg")
+                    .each(transform)
+                    .attr({
+                        'class': "marker",
+                        "width": width,
+                        "height": height,
+                        "transform": "translate(" + width / 2 + "," + height / 2 + ")",
+                    });
+
+                var div = d3.select(".gmap").append("div")
+                    .attr("class", "tooltip")
+
+                marker.append("svg:image")
+                    .attr('x', 0)
+                    .attr('y', 0)
+                    .attr('width', 50)
+                    .attr('height', 50)
+                    .attr("class", "drink")
+                    .attr("xlink:href", "drink.svg")
+                    .on("mouseover", function(d) {
+                        console.log(d);
+                        div.transition()
+                            .duration(100)
+                            .style("display", "block")
+                            .style("opacity", .9)
+                        div.html("hello")
+                            .style("left", d3.event.pageX + 10 + "px")
+                            .style("top", (d3.event.pageY) - 130 + "px")
+                            // drawAster();
+                            //alert("radar_mouseover");
+                        var foodid = d.value.id;
+                        var radar_class = ".radarchart" + foodid;
+                        console.log(foodid);
+                        var checksvg = $(".radarchart svg").has(radar_class);
+                        if (checksvg.length === 0) {
+                            console.log(radar_class, checksvg, checksvg.length);
+                            radar_refresh(foodid);
+                        }
+                        imgbar(foodid);
+
+                    })
+                    .on("mouseout", function(d) {
+                        div.transition()
+                            .duration(500)
+                            .style("display", "none")
+                    })
+                    .on("click", function(d) {
+                        console.log('clicked');
+
+                    })
+                    // marker.append("circle")
+                    //     .attr("r", 15)
+                    //     .attr("cx", padding)
+                    //     .attr("cy", padding);
+
+
+                // 加入標籤
+                marker.append("text")
+                    .attr("x", padding + 7)
+                    .attr("y", padding)
+                    .attr("dy", ".31em")
+                    .attr("class", "txt")
+                    .style("opacity", 0)
+                    .style("fill", "green")
+                    .text(function(d) {
+                        return d.value.name;
+                    });
+
+                function transform(d) {
+                    d = new google.maps.LatLng(d.value.lat, d.value.lng);
+                    d = projection.fromLatLngToDivPixel(d);
+                    return d3.select(this)
+                        .style("left", (d.x - padding) + "px")
+                        .style("top", (d.y - padding) + "px");
+                }
+
+            };
+
+        };
+
+        map.addListener('zoom_changed', function() {
+            //alert('Zoom: ' + map.getZoom());
+            var zoomlevel = map.getZoom();
+            if (zoomlevel <= 13) {
+                d3.selectAll('.drink')
+                    .attr('width', 40)
+                    .attr('height', 40)
+                map.setOptions({
+                    styles: map_styles_zoom14
+                });
+            } else if (zoomlevel === 14) {
+                d3.selectAll('.drink')
+                    .attr('width', 50)
+                    .attr('height', 50)
+                map.setOptions({
+                    styles: map_styles_zoom14
+                });
+            } else if (zoomlevel === 15) {
+                d3.selectAll('.drink')
+                    .attr('width', 60)
+                    .attr('height', 60)
+                d3.selectAll('.txt')
+                    .style("opacity", 1)
+                console.log("zoomin");
+                map.setOptions({
+                    styles: map_styles_zoom15
+                });
+            } else if (zoomlevel === 16) {
+                d3.selectAll('.drink')
+                    .attr('width', 70)
+                    .attr('height', 70)
+                map.setOptions({
+                    styles: map_styles_zoom16
+                });
+            }
+        });
+
+        // Bind our overlay to the map…
+        overlay.setMap(map);
+
+    }
+    </script>
+</body>
+
+</html>
