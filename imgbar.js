@@ -44,7 +44,7 @@ function imgbar(foodid) {
     // var data = jo_data;
     // console.log(data);
     console.log(foodid);
-    var data01 = jo_data.filter(function(d) {return Object.keys(d) == foodid });
+    var data01 = rank_data.filter(function(d) {return Object.keys(d) == foodid });
     var data = data01[0][foodid];
      console.log(data01,data);
     //d3.json("journals_optogenetic.json", function(data) {
@@ -73,8 +73,8 @@ function imgbar(foodid) {
                     return;
                 }
             })
-            .attr("width", 10)
-            .attr("height", 10)
+            .attr("width", 15)
+            .attr("height", 15)
 
         var text = g.selectAll("text")
             .data(data[j]['rank'])

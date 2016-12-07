@@ -16,7 +16,7 @@
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
     <script src="mapstyles.js"></script>
-    <script src="mrt_json.js"></script>
+    <script src="foodinfo.js"></script>
     <script src="aster_data.js"></script>
     <script src="aster01.js"></script>
     <script src="radar_data.js"></script>
@@ -24,10 +24,20 @@
     <script src="radar.js"></script>
     <script src="imgbar.js"></script>
     <style id="jsbin-css">
-    .gmap {
-        display: block;
-        width: 70vw;
+    /*    .gmap {
+        display: block;*/
+    /*       width: 70vw;
         height: 75vh;
+    }*/
+    .gmap, .foodintro {
+        margin-top: 100px; 
+    }
+
+    .container-fluid {
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-left:0 !important;
+        margin-right: 0 !important;
     }
     
     .foodmap,
@@ -47,15 +57,36 @@
         /*        stroke: black;*/
         stroke-width: 1.5px;
     }
-    
-    .container-fluid {
+    /*    .container-fluid {
         border: 1px solid purple;
         margin-top: 40px;
+    }*/
+    
+    .foodcon {
+        border: 1px solid green;
+    }
+
+    .foodintro_con {
+        background-color:lightgray;
+        height:100vh;
+        margin-top: 0;
     }
     
-    .col-md-3,
-    .col-md-9 {
-        border: 1px solid yellow;
+    .foodintro {
+        border: 1px solid brown;
+        padding-left: 20px;
+    }
+    
+    .col-md-8 {
+        border: 10px solid yellow;
+    }
+    
+    .col-md-4 {
+        border: 1px solid red;
+    }
+    
+    .col-md-6 {
+        border: 1px solid grey;
     }
     
     div.tooltip {
@@ -76,32 +107,74 @@
     svg {
         border: 1px solid brown;
     }
+    
+    h1 {
+        font-size: 22px;
+    }
+    
+    h2 {
+        font-size: 18px;
+    }
+    
+    .imgbest1,
+    .imgbest2,
+    .imgmenu,
+    .imgenv {
+        border: 1px solid orange;
+    }
+    
+    img {
+        width: 150px;
+        height: 130px;
+    }
     </style>
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-9 gmap" id="map-canvas"></div>
-            <div class="col-md-3">intro
-                <!--  <div class="aster"></div> -->
-                <div class="radarchart"></div>
-                <div class="imgbar"></div>
+    <div class="container-fluid foodcon">
+        <div class="row" style="border:1px solid hotpink">
+            <div class="col-md-8 gmap" id="map-canvas"></div>
+  <!--           <div class="col-md-8">hi</div> -->
+            <div class="col-md-4 foodintro_con">
+                <div class="foodintro">
+                    <h1 class="shop"><span class="tag tag-warning type"></span></h1>
+                    <h2 class="opening_hr"></h2>
+                    <h2 class="price"></h2>
+                    <h2 class="phone"></h2>
+                    <h2 class="booking"></h2>
+                    <h2 class="address"></h2>
+                    <div class="radarchart" style="display: inline-block;"></div>
+                    <div class="imgbar" style="display: inline-block;"></div>
+                    <div class="row">
+                        <div class="col-md-12" style="margin-top: 20px">
+                            <div class="col-md-6"><img class="imgbest1"></div>
+                            <div class="col-md-6"><img class="imgbest2"></div>
+                        </div>
+                        <div class="col-md-12" style="margin-top: 20px">
+                            <div class="col-md-6"><img class="imgmenu"></div>
+                            <div class="col-md-6"><img class="imgenv"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-9" id="map-canvas">test</div>
-            <div class="col-md-3">intro</div>
-        </div>
-    </div>
     <script>
+    function setpage() {
+        var svgw = $(".gmap").width();
+        var svgh = $(window).height() * 0.8;
+        // $("#map-canvas").css("width", "100%");
+        $("#map-canvas").css("height", svgh);
+        console.log(svgw, svgh);
+    }
+
+    setpage();
+
+    $(window).resize(function() {
+        setpage();
+    })
     var map;
     var overlay = new google.maps.OverlayView();
-    var sta_in = [],
-        sta_out = [],
-        mrtData;
     var mapOptions = {
         mapTypeId: google.maps.MapTypeId.ROADMAP
             // styles: styles['hide']
@@ -110,7 +183,7 @@
     function initialize() {
         var mapOptions = {
             zoom: 14,
-            center: new google.maps.LatLng(25.03326, 121.518168),
+            center: new google.maps.LatLng(25.033206, 121.543973),
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -121,17 +194,7 @@
 
     initialize();
 
-    // d3.csv("mrt_s.csv", function(data) {
-    //     mrtData = data;
-    //     console.log(mrtData);
-    //     sta_in = mrtin.result.results;
-    //     sta_out = mrtout.result.results;
-    //     console.log(sta_in, sta_out);
-    //     drawMap(data);
-
-    // });
-
-    var data = mrt.results;
+    var data = foodinfo.results;
     drawMap(data);
 
 
@@ -180,17 +243,42 @@
                 marker.append("svg:image")
                     .attr('x', 0)
                     .attr('y', 0)
-                    .attr('width', 50)
-                    .attr('height', 50)
+                    .attr('width', 25)
+                    .attr('height', 25)
                     .attr("class", "drink")
-                    .attr("xlink:href", "drink.svg")
+                    .attr("xlink:href", function(d) {
+                        return d.value.icon
+                    })
+                    .style("opacity", .9)
                     .on("mouseover", function(d) {
-                        console.log(d);
+                        var shopname = d.value.name;
+                        var hr = d.value.hr;
+                        var address = d.value.address;
+                        var phone = d.value.phone;
+                        var booking = d.value.booking;
+                        var price = d.value.price;
+                        var imgmenu = d.value.imgmenu;
+                        var imgenv = d.value.imgenv;
+                        var imgbest1 = d.value.imgbest1;
+                        var imgbest2 = d.value.imgbest2;
+                        var type = d.value.type;
+                        $(".shop").html(shopname);
+                        $(".phone").html("電話: " + phone);
+                        $(".booking").html("預約: " + booking);
+                        $(".price").html("均消: " + price);
+                        $(".address").html("地址 : " + address);
+                        $(".opening_hr").html("營業時間: " + hr);
+                        $(".imgenv").attr("src", imgenv);
+                        $(".imgmenu").attr("src", imgmenu);
+                        $(".imgbest1").attr("src", imgbest1);
+                        $(".imgbest2").attr("src", imgbest2);
+                        $(".type").html(type);
+                        console.log(d, shopname);
                         div.transition()
                             .duration(100)
                             .style("display", "block")
-                            .style("opacity", .9)
-                        div.html("hello")
+                            .style("opacity", .75)
+                        div.html(shopname)
                             .style("left", d3.event.pageX + 10 + "px")
                             .style("top", (d3.event.pageY) - 130 + "px")
                             // drawAster();
@@ -222,16 +310,16 @@
 
 
                 // 加入標籤
-                marker.append("text")
-                    .attr("x", padding + 7)
-                    .attr("y", padding)
-                    .attr("dy", ".31em")
-                    .attr("class", "txt")
-                    .style("opacity", 0)
-                    .style("fill", "green")
-                    .text(function(d) {
-                        return d.value.name;
-                    });
+                // marker.append("text")
+                //     .attr("x", padding + 7)
+                //     .attr("y", padding)
+                //     .attr("dy", ".31em")
+                //     .attr("class", "txt")
+                //     .style("opacity", 0)
+                //     .style("fill", "green")
+                //     .text(function(d) {
+                //         return d.value.name;
+                //     });
 
                 function transform(d) {
                     d = new google.maps.LatLng(d.value.lat, d.value.lng);
@@ -250,22 +338,22 @@
             var zoomlevel = map.getZoom();
             if (zoomlevel <= 13) {
                 d3.selectAll('.drink')
-                    .attr('width', 40)
-                    .attr('height', 40)
+                    .attr('width', 20)
+                    .attr('height', 20)
                 map.setOptions({
                     styles: map_styles_zoom14
                 });
             } else if (zoomlevel === 14) {
                 d3.selectAll('.drink')
-                    .attr('width', 50)
-                    .attr('height', 50)
+                    .attr('width', 25)
+                    .attr('height', 25)
                 map.setOptions({
                     styles: map_styles_zoom14
                 });
             } else if (zoomlevel === 15) {
                 d3.selectAll('.drink')
-                    .attr('width', 60)
-                    .attr('height', 60)
+                    .attr('width', 30)
+                    .attr('height', 30)
                 d3.selectAll('.txt')
                     .style("opacity", 1)
                 console.log("zoomin");
@@ -274,8 +362,8 @@
                 });
             } else if (zoomlevel === 16) {
                 d3.selectAll('.drink')
-                    .attr('width', 70)
-                    .attr('height', 70)
+                    .attr('width', 40)
+                    .attr('height', 40)
                 map.setOptions({
                     styles: map_styles_zoom16
                 });
