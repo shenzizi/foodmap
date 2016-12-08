@@ -14,13 +14,14 @@ function imgbar(foodid) {
             bottom: 0,
             left: 80
         },
-        width = 100,
+        width = 120,
         height = 150;
 
     var start_year = 1,
         end_year = 5;
 
-    var c = d3.scale.category20c();
+    // var c = d3.scale.category20c();
+
 
     var x = d3.scale.linear()
         .range([0, width]);
@@ -73,8 +74,8 @@ function imgbar(foodid) {
                     return;
                 }
             })
-            .attr("width", 15)
-            .attr("height", 15)
+            .attr("width", 22)
+            .attr("height", 22)
 
         var text = g.selectAll("text")
             .data(data[j]['rank'])
@@ -83,18 +84,19 @@ function imgbar(foodid) {
 
         icons
             .attr("x", function(d, i) {
-                return xScale(d[0]) - 5;
+                return xScale(d[0]) - 15;
             })
-            .attr("y", j * 20 + 5)
+            .attr("y", j * 30 - 5)
 
         g.append("text")
-            .attr("y", j * 20 + 15)
-            .attr("x", -15)
+            .attr("y", j * 30 + 15)
+            .attr("x", - 20)
             .attr("class", "imgbar_label")
             .text(truncate(data[j]['name'], 30, "..."))
+            .style("font-size",14)
             .style("text-anchor", "end")
             .style("fill", function(d) {
-                return c(j);
+                return '#ffd393';
             })
     };
 }

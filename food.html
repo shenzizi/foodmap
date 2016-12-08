@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="robots" content="noindex">
     <title>google map</title>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Muli">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="aster.css">
     <link rel="stylesheet" type="text/css" href="radar.css">
@@ -24,19 +25,40 @@
     <script src="radar.js"></script>
     <script src="imgbar.js"></script>
     <style id="jsbin-css">
-    /*    .gmap {
-        display: block;*/
-    /*       width: 70vw;
-        height: 75vh;
-    }*/
-    .gmap, .foodintro {
-        margin-top: 100px; 
+    .gmap {
+        margin-top: 20px;
     }
 
+    p, h1, h2 {
+        color: white;
+    }
+    
+    .foodintro {
+        margin-top: 40px;
+        border-top-left-radius: 2em;
+    }
+    
+    .foodintro::before {
+        content: '';
+        display: inline-block;
+        width: 120px;
+        height: 60px;
+        background-color: #5eb299;
+        border-top-left-radius: 120px;
+        border-top-right-radius: 120px;
+        border: 2px solid #f6e497;
+        border-bottom: 0;
+        -ms-transform: rotate(140deg);
+        -webkit-transform: rotate(140deg);
+        transform: rotate(140deg);
+        margin-top: -40px;
+        margin-left: -35px;
+    }
+    
     .container-fluid {
         padding-left: 20px;
         padding-right: 20px;
-        margin-left:0 !important;
+        margin-left: 0 !important;
         margin-right: 0 !important;
     }
     
@@ -65,20 +87,21 @@
     .foodcon {
         border: 1px solid green;
     }
-
+    
     .foodintro_con {
-        background-color:lightgray;
-        height:100vh;
+        background-color: #5eb299;
+        height: 100vh;
         margin-top: 0;
     }
     
     .foodintro {
-        border: 1px solid brown;
+        border: 2px solid #f6e497;
         padding-left: 20px;
+        padding-bottom: 20px;
     }
     
     .col-md-8 {
-        border: 10px solid yellow;
+        /*       border: 10px solid yellow;*/
     }
     
     .col-md-4 {
@@ -127,17 +150,108 @@
         width: 150px;
         height: 130px;
     }
+    
+    #logoimg {
+        width: 50px;
+        height: 50px;
+    }
+    
+    #searchicon {
+        width: 30px;
+        height: 30px;
+    }
+    
+    #search {
+        width: 150px;
+        height: 30px;
+    }
+    
+    #logo,
+    #search,
+    #searchicon {
+        display: inline-block;
+    }
+    
+    #search,
+    #searchicon {
+        float: right;
+        margin-top: 20px;
+    }
+    
+    #searchicon {
+        margin-right: 10px;
+    }
+    
+    .dropdown{
+        display: inline-block;
+    }
+    .dropdown button {
+        background-color: white;
+        color:gray;
+        margin-left: 10px;
+    }
+    .dropdown button:hover {
+        background-color: hotpink;
+    }
+    .dropdown-menu li {
+        padding: 10px;
+    }
+    
+    .type {
+        background: white;
+        height: 20px;
+        display: inline-block;
+        border-radius: 5px;
+        padding: 2px 5px;
+        margin-left: 10px;
+    }
+    .shop {
+        display: inline-block;
+        color: #ffd393;
+        font-size: 25px;
+    }
     </style>
 </head>
 
 <body>
     <div class="container-fluid foodcon">
         <div class="row" style="border:1px solid hotpink">
-            <div class="col-md-8 gmap" id="map-canvas"></div>
-  <!--           <div class="col-md-8">hi</div> -->
+            <div class="col-md-8">
+                <div>
+                    <br>
+                    <h1 id="logo" style="font-size: 40px;font-weight:bold;color:#8a0917;font-family:Muli">吃貨G<img id="logoimg" src="pig.svg"></h1>
+                    <input type="text" class="form-control" id="search"><img id="searchicon" src="search.svg">
+                </div>
+                <!-- <button type="button" class="btn btn-default" id="areafilter">地區篩選</button>
+                <button type="button" class="btn btn-default" id="typefilter">食物篩選</button> -->
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">地區篩選
+                        <span class="caret"></span></button>
+                    <ul id="areafilter" class="dropdown-menu">
+                        <li id="taipeimain">台北車站</li>
+                        <li id=longshen>龍山寺</li>
+                        <li id="gonguan">公館</li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">食物篩選
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li>日式台式</li>
+                        <li>美式</li>
+                        <li>韓式</li>
+                        <li>台式</li>
+                    </ul>
+                </div>
+                <div class="gmap" id="map-canvas"></div>
+            </div>
+            <!--           <div class="col-md-8">hi</div> -->
             <div class="col-md-4 foodintro_con">
                 <div class="foodintro">
-                    <h1 class="shop"><span class="tag tag-warning type"></span></h1>
+                    <div>
+                        <h1 class="shop"></h1>
+                        <span class="type" style="">hi</span>
+                    </div>
                     <h2 class="opening_hr"></h2>
                     <h2 class="price"></h2>
                     <h2 class="phone"></h2>
@@ -196,6 +310,19 @@
 
     var data = foodinfo.results;
     drawMap(data);
+
+    $("#areafilter li").click(function() {
+        var stationid = this.id; 
+        var stationpos = {"taipeimain":"25.046255,121.517532","gonguan":"25.014908,121.534216","longshen":"25.03528,121.499826"}[stationid].split(",");
+        var lat = parseFloat(stationpos[0]), lng = parseFloat(stationpos[1]); 
+        console.log(stationid,stationpos,lat,lng);
+        alert("areafilter");
+        map.setOptions({
+            zoom: 16,
+            center: {lat: lat, lng: lng }
+        })
+
+    })
 
 
     function drawMap() {

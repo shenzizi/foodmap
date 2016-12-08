@@ -1,6 +1,6 @@
 circle.background {
-        stroke: #CCC;
-        fill: #FFF;
+        stroke: #db9e36;
+        fill: #fffad5;
         stroke-width: 1;
     }
     
@@ -20,19 +20,19 @@ circle.background {
     }
     
     .radar0 {
-        stroke: #F33;
-        fill: #F33;
+        stroke: #8a0917;
+        fill: #8a0917;
     }
     
     .radar1 {
-        stroke: #33F;
-        fill: #33F;
+        stroke: #8a0917;
+        fill: #8a0917;
     }
     
     .axisLabel {
-        font: 10px sans-serif;
+        font: 14px sans-serif;
         text-transform: capitalize;
-        fill: red;
+        fill: #ffd393;
         stroke: none;
     }
     

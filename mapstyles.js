@@ -155,7 +155,7 @@ var map_styles_zoom14 = [{
     featureType: 'transit',
         elementType: 'labels.text.fill',
         stylers: [{
-            color: '#9E1818'
+            color: '#D46673'
         }]
 }, {
     "featureType": "water",
@@ -305,7 +305,7 @@ var map_styles_zoom15 = [{
     featureType: 'transit',
         elementType: 'labels.text.fill',
         stylers: [{
-            color: '#9E1818'
+            color: '#D46673'
         }]
 }, {
     "featureType": "water",
@@ -453,7 +453,7 @@ var map_styles_zoom16 = [{
     featureType: 'transit',
         elementType: 'labels.text.fill',
         stylers: [{
-            color: '#9E1818'
+            color: '#D46673'
         }]
 }, {
     "featureType": "water",

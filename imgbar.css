@@ -8,7 +8,8 @@
     /*.tick line{fill:none;stroke:none;}*/
     
     .tick text {
-        fill: #999;
+        fill: #ffd393;
+        font-size: 14px;
     }
     
     g.journal.active {

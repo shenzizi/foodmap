@@ -8,7 +8,7 @@ var rank_data = [{
             [5, 0]
         ],
         "total": 51,
-        "img": "thumb-up.svg",
+        "img": "fire.svg",
         "name": "餐廳熱度"
     }, {
         "rank": [
@@ -19,9 +19,9 @@ var rank_data = [{
             [5, 9]
         ],
         "total": 34,
-        "img": "money-bag.svg",
+        "img": "smile.svg",
         "name": "好感度"
-    },{
+    }, {
         "rank": [
             [1, 1],
             [2, 3],
@@ -30,7 +30,7 @@ var rank_data = [{
             [5, 10]
         ],
         "total": 35,
-        "img": "stopwatch.svg",
+        "img": "multi.svg",
         "name": "餐點多樣"
     }, {
         "rank": [
@@ -41,7 +41,7 @@ var rank_data = [{
             [5, 11]
         ],
         "total": 35,
-        "img": "drink.svg",
+        "img": "clock.svg",
         "name": "排隊時間"
     }, {
         "rank": [
@@ -52,7 +52,7 @@ var rank_data = [{
             [5, 9]
         ],
         "total": 34,
-        "img": "money-bag.svg",
+        "img": "eat.svg",
         "name": "用餐時間"
     }]
 }, {
@@ -65,9 +65,9 @@ var rank_data = [{
             [5, 0]
         ],
         "total": 51,
-        "img": "thumb-up.svg",
+        "img": "fire.svg",
         "name": "餐廳熱度"
-    },{
+    }, {
         "rank": [
             [1, 2],
             [2, 0],
@@ -76,7 +76,7 @@ var rank_data = [{
             [5, 0]
         ],
         "total": 34,
-        "img": "money-bag.svg",
+        "img": "smile.svg",
         "name": "好感度"
     }, {
         "rank": [
@@ -87,7 +87,7 @@ var rank_data = [{
             [5, 0]
         ],
         "total": 35,
-        "img": "stopwatch.svg",
+        "img": "multi.svg",
         "name": "餐點多樣"
     }, {
         "rank": [
@@ -98,7 +98,7 @@ var rank_data = [{
             [5, 11]
         ],
         "total": 35,
-        "img": "drink.svg",
+        "img": "clock.svg",
         "name": "排隊時間"
     }, {
         "rank": [
@@ -109,7 +109,234 @@ var rank_data = [{
             [5, 0]
         ],
         "total": 34,
-        "img": "money-bag.svg",
+        "img": "eat.svg",
+        "name": "用餐時間"
+    }]
+}, {
+    "food3": [{
+        "rank": [
+            [1, 1],
+            [2, 1],
+            [3, 0],
+            [4, 0],
+            [5, 0]
+        ],
+        "total": 51,
+        "img": "fire.svg",
+        "name": "餐廳熱度"
+    }, {
+        "rank": [
+            [1, 2],
+            [2, 0],
+            [3, 0],
+            [4, 0],
+            [5, 0]
+        ],
+        "total": 34,
+        "img": "smile.svg",
+        "name": "好感度"
+    }, {
+        "rank": [
+            [1, 1],
+            [2, 0],
+            [3, 0],
+            [4, 0],
+            [5, 0]
+        ],
+        "total": 35,
+        "img": "multi.svg",
+        "name": "餐點多樣"
+    }, {
+        "rank": [
+            [1, 1],
+            [2, 2],
+            [3, 8],
+            [4, 13],
+            [5, 11]
+        ],
+        "total": 35,
+        "img": "clock.svg",
+        "name": "排隊時間"
+    }, {
+        "rank": [
+            [1, 1],
+            [2, 3],
+            [3, 0],
+            [4, 0],
+            [5, 0]
+        ],
+        "total": 34,
+        "img": "eat.svg",
+        "name": "用餐時間"
+    }]
+}, {
+    "food4": [{
+        "rank": [
+            [1, 1],
+            [2, 1],
+            [3, 0],
+            [4, 0],
+            [5, 0]
+        ],
+        "total": 51,
+        "img": "fire.svg",
+        "name": "餐廳熱度"
+    }, {
+        "rank": [
+            [1, 2],
+            [2, 0],
+            [3, 0],
+            [4, 0],
+            [5, 0]
+        ],
+        "total": 34,
+        "img": "smile.svg",
+        "name": "好感度"
+    }, {
+        "rank": [
+            [1, 1],
+            [2, 0],
+            [3, 0],
+            [4, 0],
+            [5, 0]
+        ],
+        "total": 35,
+        "img": "multi.svg",
+        "name": "餐點多樣"
+    }, {
+        "rank": [
+            [1, 1],
+            [2, 2],
+            [3, 8],
+            [4, 13],
+            [5, 11]
+        ],
+        "total": 35,
+        "img": "clock.svg",
+        "name": "排隊時間"
+    }, {
+        "rank": [
+            [1, 1],
+            [2, 3],
+            [3, 0],
+            [4, 0],
+            [5, 0]
+        ],
+        "total": 34,
+        "img": "eat.svg",
+        "name": "用餐時間"
+    }]
+}, {
+    "food5": [{
+        "rank": [
+            [1, 1],
+            [2, 1],
+            [3, 0],
+            [4, 0],
+            [5, 0]
+        ],
+        "total": 51,
+        "img": "fire.svg",
+        "name": "餐廳熱度"
+    }, {
+        "rank": [
+            [1, 2],
+            [2, 0],
+            [3, 0],
+            [4, 0],
+            [5, 0]
+        ],
+        "total": 34,
+        "img": "smile.svg",
+        "name": "好感度"
+    }, {
+        "rank": [
+            [1, 1],
+            [2, 0],
+            [3, 0],
+            [4, 0],
+            [5, 0]
+        ],
+        "total": 35,
+        "img": "multi.svg",
+        "name": "餐點多樣"
+    }, {
+        "rank": [
+            [1, 1],
+            [2, 2],
+            [3, 8],
+            [4, 13],
+            [5, 11]
+        ],
+        "total": 35,
+        "img": "clock.svg",
+        "name": "排隊時間"
+    }, {
+        "rank": [
+            [1, 1],
+            [2, 3],
+            [3, 0],
+            [4, 0],
+            [5, 0]
+        ],
+        "total": 34,
+        "img": "eat.svg",
+        "name": "用餐時間"
+    }]},{
+    "food6": [{
+        "rank": [
+            [1, 1],
+            [2, 1],
+            [3, 1],
+            [4, 0],
+            [5, 0]
+        ],
+        "total": 51,
+        "img": "fire.svg",
+        "name": "餐廳熱度"
+    }, {
+        "rank": [
+            [1, 2],
+            [2, 1],
+            [3, 1],
+            [4, 0],
+            [5, 0]
+        ],
+        "total": 34,
+        "img": "smile.svg",
+        "name": "好感度"
+    }, {
+        "rank": [
+            [1, 1],
+            [2, 0],
+            [3, 0],
+            [4, 0],
+            [5, 0]
+        ],
+        "total": 35,
+        "img": "multi.svg",
+        "name": "餐點多樣"
+    }, {
+        "rank": [
+            [1, 1],
+            [2, 2],
+            [3, 8],
+            [4, 13],
+            [5, 11]
+        ],
+        "total": 35,
+        "img": "clock.svg",
+        "name": "排隊時間"
+    }, {
+        "rank": [
+            [1, 1],
+            [2, 3],
+            [3, 0],
+            [4, 0],
+            [5, 0]
+        ],
+        "total": 34,
+        "img": "eat.svg",
         "name": "用餐時間"
     }]
 }]
